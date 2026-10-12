@@ -5,6 +5,7 @@ import type { Task } from "../lib/plan";
 import { todayISO, toBnDigits } from "../lib/dates";
 import Markdown from "./Markdown";
 import PrincipleChips from "./PrincipleChips";
+import RuleWarnings from "./RuleWarnings";
 import { useMounted, useProgress } from "../hooks/useProgress";
 
 /**
@@ -14,7 +15,8 @@ import { useMounted, useProgress } from "../hooks/useProgress";
  * rule-এর কাজে আরও দুটো জিনিস: ঐ rule-এর Incorrect কোড, আর গাইডের পাতার লিংক।
  * লিংক টিকের পরে দেখায় — Correct আগে চোখে পড়লে নিজে লেখার অনুশীলন থাকে না।
  * যে rule-এ Incorrect নেই (`kind: "example"`), সেখানে কোডের জায়গায় বর্ণনা আর
- * "Correct"-এর জায়গায় "উদাহরণ"।
+ * "Correct"-এর জায়গায় "উদাহরণ"। কাজের সতর্কতা (Next.js 16-এর সাথে অমিল) টিকের পরে,
+ * লিংকের সাথে একই সময়ে।
  *
  * `from` দিলে কাজটা অন্য দিনের — হোমের জমে থাকা মাইলফলকে দিনের লিংক দেখায়।
  */
@@ -84,6 +86,8 @@ export default function TaskItem({ task, from }: { task: Task; from?: { code: st
             </Link>
           )}
         </div>
+
+        {checked && <RuleWarnings warnings={task.warnings} className="mt-2" />}
 
         {task.repeat && doneToday && (
           <p className="t-caption mt-2">

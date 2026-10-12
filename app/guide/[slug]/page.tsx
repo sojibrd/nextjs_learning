@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Markdown from "../../components/Markdown";
 import Pager from "../../components/Pager";
 import RuleReveal from "../../components/RuleReveal";
+import RuleWarnings from "../../components/RuleWarnings";
 import { getGuideRule, getGuideRules } from "../../lib/guide";
 import { getRuleDays } from "../../lib/plan";
 
@@ -25,7 +26,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
  *
  * পুরো লেখাটা উৎসের হুবহু — কাটা বা সাজানো নয়, তাই Incorrect কোডটা ভাঁজের ভেতরে
  * আরেকবার আসে। plan-এ এই rule-এর কাজে টিক থাকলে ভাঁজ নিজে খোলে।
- * যে rule-এ Incorrect নেই, সেখানে উপরে শুধু বর্ণনা আর ভাঁজে উদাহরণ।
+ * যে rule-এ Incorrect নেই, সেখানে উপরে শুধু বর্ণনা আর ভাঁজে উদাহরণ। plan-এ ঐ কাজের
+ * সতর্কতা (Next.js 16-এর সাথে অমিল) থাকলে সেটা ভাঁজের ভেতরে, Correct-এর আগে।
  * 🧠 Test yourself · Active vs Passive learning
  */
 export default async function GuideRulePage({ params }: { params: Promise<Params> }) {
@@ -73,6 +75,8 @@ export default async function GuideRulePage({ params }: { params: Promise<Params
       </section>
 
       <RuleReveal taskIds={days.map((day) => day.taskId)} kind={rule.kind}>
+        {/* ভাঁজের ভেতরে, Correct-এর আগে — খোলার আগে দেখালে উত্তরটাই বলে দেওয়া হয় */}
+        <RuleWarnings warnings={days.flatMap((day) => day.warnings)} className="mb-4" />
         <Markdown>{rule.body}</Markdown>
       </RuleReveal>
 

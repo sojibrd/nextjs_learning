@@ -36,6 +36,12 @@ export type Task = {
    * দেখালে নিজে লেখার অনুশীলনটাই নষ্ট। 🧠 Test yourself
    */
   rule: GuideRuleRef | null;
+  /**
+   * কাজের লাইনের ঠিক নিচের `> **সতর্কতা:** …` লাইনগুলো, markdown — rule-এর Correct
+   * যেখানে Next.js 16-এর সাথে মেলে না। Correct-এর কথা বলে, তাই দেখায় টিকের পরে আর
+   * গাইডের পাতার ভাঁজের ভেতরে। id-তে ঢোকে না — যোগ বা বদলালে টিক হারায় না।
+   */
+  warnings: string[];
 };
 
 export type Day = {
@@ -100,6 +106,8 @@ const BLOCK_CHECK_RE = /^>\s*\*\*ব্লক শেষে:\*\*\s*(.+)$/;
 const BRAIN_RE = /\s*🧠\s*(?:\(([^)]*)\))?\s*$/;
 const MINUTES_RE = /^([০-৯0-9]+)′\s*/;
 const DIP_RE = /\s*·\s*dip\s*$/;
+/** কাজের নিচের `> **সতর্কতা:** …` — ঐ কাজের সাথে জোড়া হয় */
+const WARNING_RE = /^>\s*\*\*সতর্কতা:\*\*\s*(.+)$/;
 /** `(rule · rerender-memo)` — `guide/`-এর ফাইলনাম, `.md` বাদে */
 const RULE_RE = /\s*\(rule\s+·\s+([a-z0-9-]+)\)/;
 
@@ -133,6 +141,7 @@ function parseTask(dayCode: string, raw: string): Task {
     milestone: raw.includes("⚑"),
     repeat: raw.includes("🔁"),
     rule: parseRule(dayCode, raw),
+    warnings: [],
   };
 }
 
@@ -177,6 +186,14 @@ function parseBlock(file: string, num: number, slug: string): Block {
       const task = TASK_RE.exec(line);
       if (task) {
         day.tasks.push(parseTask(day.code, task[1]));
+        continue;
+      }
+      const warning = WARNING_RE.exec(line);
+      if (warning) {
+        const owner = day.tasks.at(-1);
+        /* সতর্কতা কোন কাজের, তা লাইনের অবস্থান থেকে — আগে কাজ না থাকলে build-এই থামুক */
+        if (!owner) throw new Error(`docs: দিন ${day.code}-এ সতর্কতার আগে কোনো কাজ নেই`);
+        owner.warnings.push(warning[1].trim());
         continue;
       }
       const dayCheck = DAY_CHECK_RE.exec(line);
@@ -286,14 +303,14 @@ export function getRepeatTasks(): RepeatTask[] {
 }
 
 /** rule-এর slug → plan-এর যে দিন আর কাজে আছে, গাইডের পাতার জন্য */
-export type RuleDay = { code: string; label: string; taskId: string };
+export type RuleDay = { code: string; label: string; taskId: string; warnings: string[] };
 
 export function getRuleDays(): Record<string, RuleDay[]> {
   const map: Record<string, RuleDay[]> = {};
   for (const day of getDays()) {
     for (const task of day.tasks) {
       if (!task.rule) continue;
-      (map[task.rule.slug] ??= []).push({ code: day.code, label: day.label, taskId: task.id });
+      (map[task.rule.slug] ??= []).push({ code: day.code, label: day.label, taskId: task.id, warnings: task.warnings });
     }
   }
   return map;

@@ -22,11 +22,15 @@
 
 - [ ] ১০′ **Defer Non-Critical Third-Party Libraries** — নিচের Incorrect কোড পড়ে, না দেখে ঠিক সংস্করণটা লিখুন; তারপর "কেন" ইংরেজিতে ২–৩ বাক্যে জোরে বলুন, আর খাতায় এক লাইন: নিজের কোন সাইটে এটা আছে, বা নেই (rule · bundle-defer-third-party) 🔁 🧠 (Test yourself · Feynman technique)
 
+> **সতর্কতা:** Correct-এ `RootLayout`-এর ফাইলে `dynamic(…, { ssr: false })`, অথচ ফাইলে `'use client'` নেই। root layout ডিফল্টে Server Component, আর Next.js 16-এর ডক বলে Server Component-এ `ssr: false` দিলে error আসে — `dynamic`-এর অংশটা একটা আলাদা Client Component-এ রাখতে হয়। [নিয়মের পাতায় চারটা অমিল](/rules/#next-js-16-এর-সাথে-চারটা-অমিল)
+
 > **দিন শেষে:** না দেখে ঠিকটা লেখা, আর "কেন" ইংরেজিতে জোরে বলা হয়েছে?
 
 ### দিন ০৪৩ · Dynamic Imports for Heavy Components
 
 - [ ] ১০′ **Dynamic Imports for Heavy Components** — নিচের Incorrect কোড পড়ে, না দেখে ঠিক সংস্করণটা লিখুন; তারপর "কেন" ইংরেজিতে ২–৩ বাক্যে জোরে বলুন, আর খাতায় এক লাইন: নিজের কোন সাইটে এটা আছে, বা নেই (rule · bundle-dynamic-imports) 🔁 🧠 (Test yourself · Feynman technique)
+
+> **সতর্কতা:** Correct-এ `dynamic(…, { ssr: false })`, কিন্তু ফাইলটা Client Component কিনা দেখানো নেই। Next.js 16-এ `ssr: false` শুধু Client Component-এ চলে — Server Component-এ error আসে। [নিয়মের পাতায় চারটা অমিল](/rules/#next-js-16-এর-সাথে-চারটা-অমিল)
 
 > **দিন শেষে:** না দেখে ঠিকটা লেখা, আর "কেন" ইংরেজিতে জোরে বলা হয়েছে?
 

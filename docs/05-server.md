@@ -10,6 +10,8 @@
 
 - [ ] ১০′ **Authenticate Server Actions Like API Routes** — নিচের Incorrect কোড পড়ে, না দেখে ঠিক সংস্করণটা লিখুন; তারপর "কেন" ইংরেজিতে ২–৩ বাক্যে জোরে বলুন, আর খাতায় এক লাইন: নিজের কোন সাইটে এটা আছে, বা নেই (rule · server-auth-actions) 🔁 🧠 (Test yourself · Feynman technique)
 
+> **সতর্কতা:** rule "middleware"-এর উপর ভরসা না করতে বলে; Next.js 16-এ `middleware` file convention deprecated, নতুন নাম `proxy` — কাজ একই, শুধু ফাইল আর export-এর নাম বদলেছে। rule-এর মূল কথা — প্রতিটা Server Action-এর ভেতরেই auth যাচাই — বদলায়নি। [নিয়মের পাতায় চারটা অমিল](/rules/#next-js-16-এর-সাথে-চারটা-অমিল)
+
 > **দিন শেষে:** না দেখে ঠিকটা লেখা, আর "কেন" ইংরেজিতে জোরে বলা হয়েছে?
 
 ### দিন ০৪৮ · Avoid Duplicate Serialization in RSC Props

@@ -52,6 +52,8 @@
 
 - [ ] ১০′ **Use defer or async on Script Tags** — নিচের Incorrect কোড পড়ে, না দেখে ঠিক সংস্করণটা লিখুন; তারপর "কেন" ইংরেজিতে ২–৩ বাক্যে জোরে বলুন, আর খাতায় এক লাইন: নিজের কোন সাইটে এটা আছে, বা নেই (rule · rendering-script-defer-async) 🔁 🧠 (Test yourself · Feynman technique)
 
+> **সতর্কতা:** rule-এর শেষের Note-এ `strategy="beforeInteractive"` সহ `<Script>` একটা `Page`-এর ভেতরে। Next.js 16-এর ডক বলে `beforeInteractive` script রাখতে হয় root layout-এ (যেমন `app/layout.tsx`) — ঐ উদাহরণটা হুবহু মুখস্থ করবেন না। [নিয়মের পাতায় চারটা অমিল](/rules/#next-js-16-এর-সাথে-চারটা-অমিল)
+
 > **দিন শেষে:** না দেখে ঠিকটা লেখা, আর "কেন" ইংরেজিতে জোরে বলা হয়েছে?
 
 ### দিন ০৩৬ · Use Explicit Conditional Rendering
